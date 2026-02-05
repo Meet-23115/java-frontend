@@ -21,7 +21,8 @@ const MAPPING = {
   "paperplane.fill": "send",
   "chevron.left.forwardslash.chevron.right": "code",
   "camera.fill": "camera-alt",
-  'list.bullet' : 'list'
+  "list.bullet": "list",
+  "person.fill": "person", // profile human icon
 } as IconMapping;
 
 /**
