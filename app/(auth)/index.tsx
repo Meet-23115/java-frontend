@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   View,
   Text,
@@ -9,49 +11,73 @@ import {
   Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MaterialIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 const Stack = createNativeStackNavigator();
 
-// -------------------- DASHBOARD --------------------
-function DashboardScreen({ route, navigation }: any) {
-  //   const { user, role } = route.params;
+
+function LoginScreen() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("Teacher");
+
+  const handleLogin = () => {
+    if (username === "admin" && password === "1234") {
+      router.replace("/(tabs)");
+    } else {
+      Alert.alert("Login Failed", "Invalid Username or Password");
+    }
+  };
 
   return (
-    <LinearGradient colors={["#43e97b", "#38f9d7"]} style={styles.container}>
-      <View style={styles.headerV}>
-        <Text style={styles.title}>Dashboard</Text>
-      </View>
+    <LinearGradient colors={["#4facfe", "#00f2fe"]} style={styles.container}>
+      <Image
+        source={{
+          uri: "https://cdn-icons-png.flaticon.com/512/3135/3135755.png",
+        }}
+        style={styles.logo}
+      />
+
+      <Text style={styles.title}>Smart Attendance System</Text>
 
       <View style={styles.card}>
-        {/* <Text style={styles.welcome}>Welcome, {user} 👋</Text>
-        <Text style={styles.roleDisplay}>Role: {role}</Text> */}
+        <Text style={styles.heading}>Login</Text>
 
-        <View style={styles.infoBox}>
-          <Text>Today’s Attendance</Text>
-          <Text>Present: 45</Text>
-          <Text>Absent: 5</Text>
+        <View style={styles.inputContainer}>
+          <MaterialIcons name="person" size={22} color="#666" />
+          <TextInput
+            placeholder="Enter Username"
+            value={username}
+            onChangeText={setUsername}
+            style={styles.input}
+          />
         </View>
 
-        <TouchableOpacity
-          style={[styles.button, { backgroundColor: "#e74c3c" }]}
-          onPress={() => navigation.replace("Login")}
-        >
-          <Text style={styles.buttonText}>Logout</Text>
+        <View style={styles.inputContainer}>
+          <MaterialIcons name="lock" size={22} color="#666" />
+          <TextInput
+            placeholder="Enter Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            style={styles.input}
+          />
+        </View>
+
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       </View>
     </LinearGradient>
   );
 }
 
-// -------------------- APP NAVIGATION --------------------
 export default function App() {
   return (
     //<NavigationContainer>
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Dashboard" component={DashboardScreen} />
+      <Stack.Screen name="Dashboard" component={LoginScreen} />
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
     </Stack.Navigator>
     // </NavigationContainer>
@@ -60,14 +86,11 @@ export default function App() {
 
 // -------------------- STYLES --------------------
 const styles = StyleSheet.create({
-  headerV: {
-
-  },
   container: {
-    // flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
-    padding: 25,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
   },
   logo: {
     width: 90,
@@ -79,7 +102,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
     marginBottom: 20,
-    textAlign: "left",
+    textAlign: "center",
   },
   card: {
     width: "100%",

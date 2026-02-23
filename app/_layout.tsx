@@ -19,22 +19,18 @@ const queryClient = new QueryClient({
     },
   },
 });
-export const unstable_settings = {
-  anchor: "(tabs)",
-};
+
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const isLoggedIn = false;
 
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="modal"
-            options={{ presentation: "modal", title: "Modal" }}
-          />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(auth)" />
+          
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
