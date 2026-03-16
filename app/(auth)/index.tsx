@@ -13,21 +13,29 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { postLogin } from "@/hooks/Login.api";
 
 const Stack = createNativeStackNavigator();
-
 
 function LoginScreen() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("Teacher");
 
-  const handleLogin = () => {
-    if (username === "admin" && password === "1234") {
+  const handleLogin = async () => {
+    const res = await postLogin({ username, password });
+
+    if (res.data == 400) {
+      alert("Invalid User");
+    } else if (res.data == 200) {
       router.replace("/(tabs)");
-    } else {
-      Alert.alert("Login Failed", "Invalid Username or Password");
     }
+    // if (username === "admin" && password === "1234") {
+
+    //   router.replace("/(tabs)");
+    // } else {
+    //   Alert.alert("Login Failed", "Invalid Username or Password");
+    // }
   };
 
   return (
